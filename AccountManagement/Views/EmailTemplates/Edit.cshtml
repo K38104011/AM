@@ -1,0 +1,91 @@
+﻿@model AccountManagement.Models.EditEmailTemplateModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
+<div class="box-header with-border">
+    <h3 class="box-title">Template of Email</h3>
+</div>
+<!--/.box header-->
+@if (TempData["message"] == null){
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.lstEmailTemplate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Id, Model.lstEmailTemplate, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <button type="button" id="btn-choosetemplate" class="btn btn-info">Choose</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+}
+else { 
+
+using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="box-body">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(mode=>Model.Id)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ToEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ToEmail, new { htmlAttributes = new { @class = "form-control", data_role = "tagsinput" } })<br />
+                    @Html.ValidationMessageFor(model => model.ToEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CcEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CcEmail, new { htmlAttributes = new { @class = "form-control", data_role = "tagsinput" } }) <br />
+                    @Html.ValidationMessageFor(model => model.CcEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @cols = 80, @rows = 10 })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--/.box body-->
+    <div class="box-footer clearfix pull-right">
+        <input type="submit" value="Save" class="btn btn-info" />
+        <button type="button" class="btn btn-default" onclick="location.href = '/EmailTemplates/Edit'">Back to list</button>
+    </div>
+}
+}
+<script>
+    CKEDITOR.replace('Description');
+</script>

@@ -1,0 +1,163 @@
+﻿@model AccountManagement.Models.User
+
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddUser</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>User</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParentGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div type="text" class="col-md-2" value="people">
+                @Html.EditorFor(model => model.ParentGroup, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ParentGroup, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Save To</label>
+                
+                <div class="form-group col-md-10">
+                    @Html.CheckBoxFor(x => x.saveToLdap )
+                    @Html.LabelFor(x => x.saveToLdap)
+                    @Html.ValidationMessageFor(x => x.saveToLdap)
+
+                    @Html.CheckBoxFor(x => x.saveToSvnacm)
+                    @Html.LabelFor(x => x.saveToSvnacm)
+                    @Html.ValidationMessageFor(x => x.saveToSvnacm)
+
+                    @Html.CheckBoxFor(x => x.saveToRedmind)
+                    @Html.LabelFor(x => x.saveToRedmind)
+                    @Html.ValidationMessageFor(x => x.saveToRedmind)
+                </div>
+
+            </div>
+        </div>
+        <div id="groupSvn" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Group in SVNACM</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="groupSvnacm">
+                </div>
+            </div>
+        </div>
+        <div id="pjSvn" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Project in SVNACM</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="projectSvnacm">
+                </div>
+            </div>
+        </div>
+        <div id="groupRm" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Group in RedMind</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="groupRedmind">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <div id="info">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-8 col-md-10">
+                <input type="submit" value="Save" class="btn btn-info col-md-1" />
+                <input type="reset" value="Cancel" class="btn btn-default col-md-1" style="margin-left: 5px" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <div id="preview">
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+$(document).ready(function(){
+    $("#saveToSvnacm").check(function () {
+        $("#groupSvn").fadeIn("slow");
+        $("#pjSvn").fadeIn("slow");
+    });
+});
+</script>
+
+
+<!--------------handsontable------------------------------------->
+
+<script>
+	var dataElement = document.querySelector('#info');
+	var dataElementContainer = dataElement.parentNode;
+	var dataSettings = {
+	startcols:6,
+	startrows: 3,
+	dataShema : {
+			id : null,
+			firstName : null,
+			lastName : null,
+			account: null,
+			email : null,
+			phone : null,
+			password : null,
+		},
+	columns: [
+		{
+		    data: 'firstname',
+		    type: 'text',
+		    width: 100
+		},
+		{
+			data: 'lastname',
+			type: 'text',
+			width: 100
+		},
+		{
+			data: 'account',
+			type: 'text',
+		    width: 120
+		},
+		{
+			data: 'email',
+			type: 'text',
+			width: 150
+		},
+		{
+			data: 'phone',
+			type: 'numeric',
+			width: 120
+		},
+		{
+			data: 'password',
+			type: 'password',
+			width: 130
+		}
+	],
+	stretchH: 'all',
+	autoWrapRow: true,
+	rowHeaders: true,
+	colHeaders: [
+		'First Name', 'Last Name', 'Account', 'Email', 'Phone', 'Password'
+	],
+	manualRowResize: true,
+	manualColumnResize: true
+};
+	var info = new Handsontable(dataElement, dataSettings);
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<!----checkbox-->

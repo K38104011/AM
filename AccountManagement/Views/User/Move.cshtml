@@ -1,0 +1,49 @@
+﻿@model AccountManagement.Models.MoveUserView
+
+@{
+    ViewBag.Title = "Move";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="box-header with-border">
+    <h3 class="box-title">Move user</h3>
+</div>
+<!--/.box header-->
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="box-body">
+        @Html.EditorFor(model => model.Dn)
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Account, new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "form-control",
+                        @placeholder = "Account",
+                        @id = "Account",
+                        @readonly = "readonly",
+                    }
+                })
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Move to", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.selectedDn, Model.GroupList, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.box body-->
+    <div class="box-footer clearfix pull-right">
+        <input type="submit" value="Move User" class="btn btn-info" />
+        <input type="button" value="Cancel" class="btn btn-default" onclick="@("window.location.href='" +
+                    @Url.Action("Index", "Home") + "'");" />
+    </div>
+}
+

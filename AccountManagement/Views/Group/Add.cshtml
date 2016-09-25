@@ -1,0 +1,42 @@
+﻿@model AccountManagement.Models.AddGroupView
+
+@{
+    ViewBag.Title = "Add group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box-header with-border">
+    <h3 class="box-title">Add group</h3>
+</div>
+<!--/.box header-->
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="box-body">
+        <div class="form-horizontal">
+
+            @Html.EditorFor(model => model.ParentDn, new { htmlAttributes = new { @Value = "ou=AM, ou=People, dc=maxcrc, dc=com" } })
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Parent Group</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="parentGroup" value="AM" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Group Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter group name" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.box body-->
+    <div class="box-footer clearfix pull-right">
+        <input type="submit" value="Add Group" class="btn btn-info" />
+        <input type="button" value="Cancel" class="btn btn-default" onclick="@("window.location.href='" +
+                    @Url.Action("Index", "Home") + "'");" />
+    </div>
+}

@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Content/skin-blue-light.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/ionicons.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-treeview.min.css" rel="stylesheet" />
+    <link href="~/Content/handsontable.full.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/handsontable.full.min.js"></script>
+    <style type="text/css">
+        .stylish-input-group .input-group-addon {
+            background: white !important;
+        }
+
+        .stylish-input-group .form-control {
+            border-right: 0;
+            box-shadow: 0 0 0;
+            border-color: #ccc;
+        }
+
+        .stylish-input-group button {
+            border: 0;
+            background: transparent;
+        }
+
+        .menu-btn {
+            margin-top: 1%;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="row">
+        <header class="main-header">
+            <a href="#" class="logo">
+                <!-- LOGO -->
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <!--<span class="logo-mini"><b>AM</b></span> -->
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">Account Management</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/Images/default_avatar.png" class="user-image" alt="User Image">
+                                <span>@HttpContext.Current.User.Identity.Name</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="~/Images/default_avatar.png" class="img-circle" alt="User Image">
+                                    <p>
+                                        @HttpContext.Current.User.Identity.Name
+                                        <small><a href="/User/EditProfile" style="color:white !important"><i class="fa fa-fw fa-pencil"></i>Edit profile</a></small>
+                                    </p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="/User/ChangePassword" class="btn btn-default btn-flat">Change password</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/Account/LogOff" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    </ul>
+                </div>
+                
+            </nav>
+        </header>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <h2 class="text-center text-info">Control Panel</h2>
+            <div style="text-align:center">
+                <button class="btn btn-default" id="btn-refresh" title="Refresh">
+                    <span class="fa fa-refresh"></span>
+                </button> &nbsp;
+                <button class="btn btn-default" id="btn-edit" title="Edit">
+                    <span class="fa fa-pencil"></span>
+                </button> &nbsp;
+                <button class="btn btn-default" id="btn-export" title="Export excel">
+                    <span class="fa fa-paperclip"></span>
+                </button> &nbsp;
+                <button class="btn btn-default" id="btn-trash" title="Delete">
+                    <span class="fa  fa-trash"></span>
+                </button>
+            </div>
+            <hr />
+            <!-- search form -->
+            <form class="sidebar-form">
+                <input type="text" value="" id="input-search" class="form-control" placeholder="Search...">
+            </form>
+            <!-- /.search form -->
+            <!-- Menu left -->
+            <div id="tree" style="max-height:800px; overflow:auto;"></div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <!-- Menu right -->
+                <nav class="navbar navbar-default menu" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed"
+                                    data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+
+                            <ul class="nav navbar-nav">
+                                <li><a href="~/Home/">Home</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle"
+                                       data-toggle="dropdown">Group<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/Group/Add">Add Group</a></li>
+                                        <li><a href="/Group/AddManyGroups">Add Many Group</a></li>
+                                        <li><a href="/Group/Move">Move Group</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle"
+                                       data-toggle="dropdown">User<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/User/Add">Add User</a></li>
+                                        <li><a href="/User/Move">Move User</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle"
+                                       data-toggle="dropdown">Roles<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Manager Roles</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle"
+                                       data-toggle="dropdown">Template of Email<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/EmailTemplates/Add">Add Template</a></li>
+                                        <li><a href="/EmailTemplates/Edit">Edit Template</a></li>
+                                        <li><a href="/EmailTemplates/Delete">Delete Template</a></li>
+                                        <!--    <li class="divider"></li> -->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- box -->
+                    <div class="box box-default col-md-12">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content">
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <!-- Delete Group Modal -->
+    <div class="modal modal-danger" id="deleteGroupModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Group</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to remove this group?</p>
+                    <p id="nameOfGroupDeleteting" style="font-weight: bold"></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btn-delete-group" class="btn btn-outline" value="Sure" />
+                    <input type="button" class="btn btn-outline" data-dismiss="modal" value="Cancel" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Delete User Modal -->
+    <div class="modal modal-danger" id="deleteUserModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete User</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to remove this user?</p>
+                    <p id="nameOfUserDeleting" style="font-weight: bold"></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="btn-delete-user" class="btn btn-outline" value="Sure" />
+                    <input type="button" class="btn btn-outline" data-dismiss="modal" value="Cancel" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/bootstrap-treeview.min.js"></script>
+
+    <!-- Validate Client-side -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/bootstrap-tagsinput.js"></script>
+</body>
+</html>
+<script src="~/Scripts/am.js"></script>
+
+<script>
+    @if (TempData["message-success"] != null)
+    {
+        @:toastr.success("@TempData["message-success"]", "Success");
+                    }
+    else if (TempData["message-fail"] != null)
+    {
+        @:toastr.error("@TempData["message-fail"]", "Fail");
+    }
+</script>
